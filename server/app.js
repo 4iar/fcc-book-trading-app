@@ -71,6 +71,16 @@ app.post('/api/book', (request, response) => {
   })
 })
 
+app.get('/api/books', (request, response) => {
+  db.collection('books').find(null, {_id: 0}).toArray((dbError, dbResult) => {
+    if (dbError) {
+      response.json({status: 'error', message: 'could not talk to the database'});
+    } else if (dbResult) {
+      response.json({status: 'success', message: 'got books', books: dbResult})
+    }
+  })
+})
+
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });

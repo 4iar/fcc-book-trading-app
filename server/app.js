@@ -71,6 +71,30 @@ app.post('/api/book', (request, response) => {
   })
 })
 
+app.delete('/api/book/:bookId', (request, response) => {
+  const userId = 'placeholderuser1';
+  const bookId = request.params.bookId;
+
+  db.collection('books').findOne({id: bookId}, (dbError, dbResult) => {
+    if (dbError) {
+      response.json({status: 'error', message: 'could not talk to the database'});
+    } else if (dbResult === null) {
+      response.json({status: 'error', message: 'book does not exist'});
+    } else if (dbResult) {
+      if (dbResult.addedBy === userId) {
+        db.collection('books').remove({id: bookId}, {justOne: true}, (dbError, dbResult) => {
+          if (dbError) {
+            response.json({status: 'error', message: 'could not talk to the database'});
+          } else if (dbResult) {
+            response.json({status: 'success', message: 'book deleted'});
+        }})
+      } else {
+        response.json({status: 'error', message: 'you cannot delete this book because you did not add it'});
+      }
+    }
+  })
+})
+
 app.get('/api/books', (request, response) => {
   db.collection('books').find(null, {_id: 0}).toArray((dbError, dbResult) => {
     if (dbError) {
@@ -80,6 +104,7 @@ app.get('/api/books', (request, response) => {
     }
   })
 })
+
 
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/index.html');

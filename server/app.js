@@ -6,7 +6,9 @@ const _ = require('lodash');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const books = require('google-books-search');
 const strategy = require('./setup-passport');
+const shortid = require('shortid');
 
 // setup db
 const port = process.env.PORT || 5000;
@@ -38,7 +40,35 @@ app.get('/callback', passport.authenticate('auth0', { failureRedirect: '/broke' 
   response.redirect("/home");
 });
 
+app.post('/api/book', (request, response) => {
+  const userId = 'placeholderuser1';
+  const bookId = request.body.bookId;
+  console.log(bookId);
 
+  books.lookup(bookId, (error, result) => {
+    if (error) {
+      response.json({status: 'error', message: 'problem talking to the google books api'});
+    } else if (result) {
+
+      const id = encodeURI(result.title.replace(/ /g,'') + '-' + shortid.generate());
+      let book = {
+        metadata: result,
+        addedBy: userId,
+        id,
+        tradeStatus: '',  // proposed -> approved
+        tradingWith: '',  // id of the user who proposed the trade
+        active: true
+      };
+
+      db.collection('books').insert(book, (dbError, dbResult) => {
+        if (dbError) {
+          response.json({status: 'error', message: 'problem adding the book to the database'});
+        } else if (dbResult) {
+          response.json({status: 'success', message: 'book added to database and ready for trading'});
+        }
+      })
+    }
+  })
 })
 
 app.get('*', function (req, res) {

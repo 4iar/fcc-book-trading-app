@@ -5,21 +5,22 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import { connect } from 'react-redux';
-import {fetchVenues} from '../actions/venuesActions';
+import {fetchBooks} from '../actions/booksActions';
 
 injectTapEventPlugin();
 
 
-@connect(null, {fetchVenues})
+@connect(null, {fetchBooks})
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.props.fetchBooks();
   }
-  
+
   handleClick() {
-    this.props.fetchVenues();
+    this.props.fetchBooks();
   }
-  
+
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>

@@ -1,7 +1,6 @@
 const initialState = {
-  venues: {
-    placeholder: 'aasldkjflakj',
-    location: {lat: null, lon: null},
+  books: {
+    books: [],
     loading: false
   },
   user: {

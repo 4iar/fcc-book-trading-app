@@ -2,16 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import Venue from '../components/Venue';
-import LocationSearch from '../components/LocationSearch';
+import BookCard from '../components/BookCard';
 import NavBar from '../components/NavBar';
 import '../styles/homepage.scss';
 
 
 function getState(state) {
   return {
-    venues: state.venues.venues,
-    loading: state.venues.loading
+    books: state.books.books,
+    loading: state.books.loading
   };
 }
 
@@ -21,14 +20,14 @@ export default class HomePage extends React.Component {
     super(props);
 
     this.state = {
-      venues: undefined,
+      books: undefined,
       loading: false
     };
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
-      venues: newProps.venues,
+      books: newProps.books,
       loading: newProps.loading
     });
   }
@@ -37,21 +36,20 @@ export default class HomePage extends React.Component {
     return (
       <div>
         <NavBar />
-        <LocationSearch query={this.props.location.query} />
         {this.state.loading &&
         <div className="loading-spinner-container">
           <CircularProgress className="loading-spinner" size={1} />
         </div>
         }
 
-        {this.state.venues && this.state.venues.length === 0 &&
+        {this.state.books && this.state.books.length === 0 &&
         <h2 style={{textAlign: 'center'}}>Nothing going on here :(</h2>
         }
 
-        {this.state.venues && this.state.venues.length > 0 &&
-        this.state.venues.map((v) => {
+        {this.state.books && this.state.books.length > 0 &&
+        this.state.books.map((b) => {
           return (
-            <Venue key={v.id} venue={v}/>
+            <BookCard key={b.id} book={b}/>
           );
         })}
       </div>

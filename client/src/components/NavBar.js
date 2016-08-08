@@ -11,7 +11,7 @@ export default class NavBar extends React.Component {
   render() {
     return (
       <AppBar
-        title="Nightlife Coordinator"
+        title="BookTrade"
         iconElementLeft={<div></div>}
         iconElementRight={<FlatButton onClick={this.props.promptLogin.bind(this)} label="Login" />}
       />

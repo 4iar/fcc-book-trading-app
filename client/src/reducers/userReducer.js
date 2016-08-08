@@ -6,7 +6,7 @@ export default function user(state = initialState.user, action) {
     case 'RECEIVE_VENUES': {
       return {
         ...state,
-        venues: action.payload.venues
+        venues: action.payload.books
       };
     }
     case 'REQUEST_VENUES': {

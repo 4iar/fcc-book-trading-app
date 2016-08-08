@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import venues from './venuesReducer';
+import books from './booksReducer';
 import user from './userReducer';
 import {routerReducer} from 'react-router-redux';
 
 
 const rootReducer = combineReducers({
   user,
-  venues,
+  books,
   routing: routerReducer,
 });
 

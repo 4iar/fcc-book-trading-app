@@ -6,48 +6,47 @@ import IconButton from 'material-ui/IconButton';
 import NotificationsIcon from 'material-ui/svg-icons/maps/directions-run';
 import {connect} from 'react-redux';
 
-import {attendVenue} from '../actions/venuesActions';
+import {attendVenue} from '../actions/booksActions';
 
 import '../styles/venue.scss';
 
 
 @connect(null, {attendVenue})
-export default class Venue extends React.Component {
+export default class BookCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.getVenueObj(this.props.venue);
+    this.state = this.getBookObj(this.props.book);
   }
-  
+
   componentWillReceiveProps(newProps) {
-    this.setState(this.getVenueObj(newProps.venue));
+    this.setState(this.getBookObj(newProps.book));
   }
-  
-  getVenueObj(venue) {
+
+  getBookObj(book) {
+    console.log(book);
     return {
-      name: venue.name,
-      description: venue.description,
-      thumbnailUrl: venue.thumbnailUrl,
-      headerUrl: venue.headerUrl,
-      numGoing: venue.numGoing,
-      distance: venue.distance,
-      phone: venue.phone,
-      userGoing: venue.userGoing,
-      id: venue.id
+      title: book.metadata.title
     };
   }
-  
+
   handleClick() {
     this.props.attendVenue(this.state.id);
   }
 
   render() {
     return (
+      <h1>
+        {this.state.title}
+      </h1>
+    )
+
+    return (
       <Card className="venue">
 
         <CardMedia className="image" size={30} >
           <img src={this.state.headerUrl} />
         </CardMedia>
-        
+
         <CardTitle className="title">
           <div>{this.state.name}</div>
         </CardTitle>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_BOOKS_ENDPOINT, API_BASE_URL} from '../constants/endpoints';
+import {API_BOOKS_ENDPOINT} from '../constants/endpoints';
 import {promptLogin} from './userActions';
 import _ from 'lodash';
 

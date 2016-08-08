@@ -1,17 +1,18 @@
 import React from 'react';
 import {Card, CardActions, CardText, CardMedia, CardTitle} from 'material-ui/Card';
 import {cyan700} from 'material-ui/styles/colors';
-import Badge from 'material-ui/Badge';
-import IconButton from 'material-ui/IconButton';
-import NotificationsIcon from 'material-ui/svg-icons/maps/directions-run';
+import RaisedButton from 'material-ui/RaisedButton';
+import ActionCompareArrows from 'material-ui/svg-icons/action/compare-arrows';
 import {connect} from 'react-redux';
+import axios from 'axios';
 
-import {attendVenue} from '../actions/booksActions';
+import {promptLogin} from '../actions/userActions';
+import {API_BOOK_ACTIONS_ENDPOINT} from '../constants/endpoints';
 
 import '../styles/venue.scss';
 
 
-@connect(null, {attendVenue})
+@connect(null, {promptLogin})
 export default class BookCard extends React.Component {
   constructor(props) {
     super(props);
@@ -23,55 +24,66 @@ export default class BookCard extends React.Component {
   }
 
   getBookObj(book) {
-    console.log(book);
     return {
-      title: book.metadata.title
+      title: book.metadata.title,
+      author: book.metadata.authors[0],
+      moreInfoUrl: book.metadata.link,
+      thumbnailUrl: book.metadata.images.medium,
+      rating: book.metadata.averageRating,
+      ratingCount: book.metadata.ratingsCount,
+      description: book.metadata.description,
+      tradeStatus: book.tradeStatus,
+      id: book.id
     };
   }
 
   handleClick() {
-    this.props.attendVenue(this.state.id);
+    this.setState({
+      waiting: true
+    });
+
+    const endpoint = API_BOOK_ACTIONS_ENDPOINT + this.state.id;
+    axios.post(endpoint, {action: 'propose'})
+      .then((response) => {
+        console.log(response);
+
+        if (response.data.status === 'success') {
+        } else if (response.data.status === 'error') {
+          if (response.data.message === 'not logged in') {
+            this.props.promptLogin()
+          }
+        }
+        this.setState({
+          waiting: false
+        });
+      });
   }
 
   render() {
     return (
-      <h1>
-        {this.state.title}
-      </h1>
-    )
-
-    return (
       <Card className="venue">
 
-        <CardMedia className="image" size={30} >
-          <img src={this.state.headerUrl} />
+        <CardMedia className="image">
+          <img src={this.state.thumbnailUrl} />
         </CardMedia>
 
-        <CardTitle className="title">
-          <div>{this.state.name}</div>
-        </CardTitle>
-
-        <CardText className="info">
-          <div className="align-left">{this.state.phone}</div>
-          <div className="align-right">{this.state.distance} metres away</div>
+        <CardText>
+          <h2 className="align-left">{this.state.rating}/5 across {this.state.ratingCount} votes</h2>
         </CardText>
 
         <CardText className="description">
-          {this.state.description}
+          {this.state.description.replace(/<(?:.|\n)*?>/gm, '')}
         </CardText>
 
         <CardActions>
-          <div className="attend" >
-            <Badge
-              badgeContent={this.state.numGoing}
-              secondary={true}
-              badgeStyle={{top: 12, right: 12}}
-            >
-              <IconButton onClick={this.handleClick.bind(this)} tooltip="Attend">
-                <NotificationsIcon color={this.state.userGoing ? cyan700 : null} secondary={true}/>
-              </IconButton>
-            </Badge>
-          </div>
+            <RaisedButton
+              label={this.state.tradeStatus ? "Unavailable" : "Trade"}
+              labelPosition="before"
+              disabled={this.state.waiting || this.state.tradeStatus}
+              primary={true}
+              icon={<ActionCompareArrows secondary={true}/>}
+              onClick={this.handleClick.bind(this)}
+            />
         </CardActions>
       </Card>
     );

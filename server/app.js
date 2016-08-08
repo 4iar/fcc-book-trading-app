@@ -71,6 +71,68 @@ app.post('/api/book', (request, response) => {
   })
 })
 
+app.post('/api/book/:bookId', (request, response) => {
+  const action = request.body.action;
+  const bookId = request.params.bookId;
+  const userId = 'placeholderuser1';
+
+  db.collection('books').findOne({id: bookId}, (dbError, dbResult) => {
+    // oh my god this is the worst
+    if (dbError) {
+      response.json({status: 'error', message: 'could not talk to the database'});
+    } else if (dbResult === null) {
+      response.json({status: 'error', message: 'book does not exist'});
+    } else if (dbResult) {
+      if (!dbResult.tradeStatus) {
+        // trade possible
+        if (action === 'propose') {
+          if (dbResult.addedBy === userId) {
+            response.json({status: 'error', message: 'you cannot trade with yourself!'});
+          } else {
+            db.collection('books').update({id: bookId}, {$set: {tradingWith: userId, tradeStatus: 'proposed'}});
+            response.json({status: 'success', message: 'trade successfully proposed'});  // need to attach this to update
+          }
+        } else if (action === 'approve') {
+          response.json({status: 'error', message: 'there is no trade to approve!'});
+        } else if (action === 'unpropose') {
+          response.json({status: 'error', message: 'there is no trade to unpropose'});
+        } else if (action === 'reject') {
+          response.json({status: 'error', message: 'there is no trade to reject'});
+        }
+      } else {
+        if (action === 'approve') {
+          if (dbResult.tradeStatus === 'proposed') {
+            db.collection('books').update({id: bookId}, {$set: {tradeStatus: 'approved'}});
+            response.json({status: 'success', message: 'trade successfully accepted'});  // need to attach this to update
+          } else {
+            response.json({status: 'error', message: 'trade not approved'});
+          }
+        } else if (action === 'unpropose') {
+          if (dbResult.tradingWith === userId) {
+            db.collection('books').update({id: bookId}, {$set: {tradingWith: '', tradeStatus: ''}});
+            response.json({status: 'success', message: 'trade successfully unproposed'});  // need to attach this to update
+          } else {
+            response.json({status: 'error', message: 'you cannot modify someone else\'s trade'});
+          }
+        } else if (action === 'reject') {
+          if (dbResult.addedBy === userId) {
+            if (dbResult.tradeStatus === 'approved') {
+              response.json({status: 'error', message: 'you cannot reject an approved trade'});
+            } else {
+              db.collection('books').update({id: bookId}, {$set: {tradingWith: '', tradeStatus: ''}});
+              response.json({status: 'succes', message: 'current trade proposal has been rejected'});
+            }
+          } else {
+            response.json({status: 'error', message: 'you cannot modify someone else\'s trade'});
+          }
+        } else {
+          response.json({status: 'error', message: 'book is already being traded'});
+        }
+      }
+    }
+  })
+})
+
 app.delete('/api/book/:bookId', (request, response) => {
   const userId = 'placeholderuser1';
   const bookId = request.params.bookId;

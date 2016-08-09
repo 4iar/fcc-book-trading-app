@@ -8,6 +8,7 @@ import NavBar from '../components/NavBar';
 import AddBook from '../components/AddBook.js'
 import TradeRequests from '../components/TradeRequests';
 import Notifications from '../components/Notifications';
+import UserInfoEdit from '../components/UserInfoEdit';
 import '../styles/homepage.scss';
 
 
@@ -40,6 +41,7 @@ export default class HomePage extends React.Component {
     return (
       <div>
         <NavBar />
+        <UserInfoEdit />
         <TradeRequests />
         {this.state.loading &&
         <div className="loading-spinner-container">

@@ -167,6 +167,43 @@ app.get('/api/books', (request, response) => {
   })
 })
 
+app.post('/api/user/:userId', (request, response) => {
+  // check request.user.id ===  request.params.userId!!!!!
+  const userId = request.params.userId;
+  const city = request.body.city;
+  const country = request.body.country;
+  const otherInfo = request.body.otherInfo;
+
+  db.collection('users').update({id: userId}, {$set: {city, country, otherInfo}}, {upsert: true}, (dbError, dbResult) => {
+    if (dbResult) {
+      response.json({status: 'success', message: 'user info updated'});
+    } else if (dbError) {
+      response.json({status: 'error', message: 'could not talk to the database'});
+    }
+  });
+})
+
+app.get('/api/user/:userId', (request, response) => {
+  const userId = request.params.userId;
+
+  db.collection('users').findOne({id: userId}, (dbError, dbResult) => {
+    if (dbError) {
+      response.json({status: 'error', message: 'could not talk to the database'});
+    } else if (!dbResult) {
+      response.json({status: 'error', message: 'user not found'});
+    } else if (dbResult) {
+      response.json({
+        status: 'success',
+        message: 'user found',
+        user: {
+          city: dbResult.city,
+          country: dbResult.country,
+          otherInfo: dbResult.otherInfo,
+        }
+      })
+    }
+  })
+})
 
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/index.html');

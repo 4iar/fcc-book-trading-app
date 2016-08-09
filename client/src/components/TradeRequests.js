@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import {promptLogin} from '../actions/userActions';
 import {sendNotification} from '../actions/notificationActions';
 import {API_BOOK_ACTIONS_ENDPOINT} from '../constants/endpoints';
+import UserInfo from '../components/UserInfo';
 //import '../styles/addbook.scss';
 
 function getState(state) {
@@ -87,6 +88,12 @@ export default class TradeRequests extends React.Component {
     this.setState({open: false});
   };
 
+  showUserInfo(id) {
+    this.setState({
+      showUserInfo: id
+    });
+  }
+
   render() {
     const title = {
       requests: 'Trades you have requested',
@@ -95,6 +102,10 @@ export default class TradeRequests extends React.Component {
 
     return (
       <div>
+        {this.state.showUserInfo &&
+        <UserInfo id={this.state.showUserInfo} resetUserInfo={this.setState.bind(this, ({showUserInfo: ''}))} />
+        }
+
         <Dialog
           title={title}
           modal={false}
@@ -154,6 +165,10 @@ export default class TradeRequests extends React.Component {
                                 secondary={true}
                                 label='Approve'
                   />}
+                  <RaisedButton onClick={this.showUserInfo.bind(this, this.state.selection === 'requests' ? b.addedBy : b.tradingWith)}
+                                secondary={true}
+                                label='User info'
+                  />
                 </CardActions>
               </Card>
             )

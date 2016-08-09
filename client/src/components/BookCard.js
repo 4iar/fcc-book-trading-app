@@ -1,6 +1,5 @@
 import React from 'react';
-import {Card, CardActions, CardText, CardMedia, CardTitle} from 'material-ui/Card';
-import {cyan700} from 'material-ui/styles/colors';
+import {Card, CardActions, CardText, CardMedia} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionCompareArrows from 'material-ui/svg-icons/action/compare-arrows';
 import {connect} from 'react-redux';
@@ -47,8 +46,7 @@ export default class BookCard extends React.Component {
     axios.post(endpoint, {action: 'propose'})
       .then((response) => {
         this.props.sendNotification(response.data.status, response.data.message);
-        if (response.data.status === 'success') {
-        } else if (response.data.status === 'error') {
+        if (response.data.status === 'error') {
           if (response.data.message === 'not logged in') {
             this.props.promptLogin()
           }

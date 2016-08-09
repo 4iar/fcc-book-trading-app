@@ -10,7 +10,7 @@ export default function books(state = initialState.books, action) {
         books: action.payload.books,
         loading: false
       };
-    };
+    }
     case 'REQUEST_BOOKS': {
       return {
         ...state,

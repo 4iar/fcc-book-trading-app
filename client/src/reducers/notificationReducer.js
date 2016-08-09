@@ -10,7 +10,7 @@ export default function notification(state = initialState.notification, action) 
         newest: action.payload.message,
         count: state.count + 1
       };
-    };
+    }
     default:
       return state;
   }

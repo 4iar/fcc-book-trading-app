@@ -1,7 +1,6 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {connect} from 'react-redux';
 import axios from 'axios';
@@ -28,7 +27,7 @@ export default class UserInfoEdit extends React.Component {
     this.state = {
       open: false,
       waiting: true,
-      user: {city: '', otherInfo: '', city: ''}
+      user: {city: '', otherInfo: '', country: ''}
     };
   }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 
 import {API_USER_INFO_ENDPOINT} from '../constants/endpoints';

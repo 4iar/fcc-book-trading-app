@@ -1,7 +1,5 @@
 import axios from 'axios';
 import {API_BOOKS_ENDPOINT} from '../constants/endpoints';
-import {promptLogin} from './userActions';
-import _ from 'lodash';
 
 
 export function requestBooks() {

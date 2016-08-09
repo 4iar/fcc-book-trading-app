@@ -56,18 +56,17 @@ export default class TradeRequests extends React.Component {
     });
   }
 
-  handleSubmit(bookId) {
+  handleSubmit(bookId, action) {
     this.setState({
       waiting: true
     });
 
-    axios.post(API_BOOK_ACTIONS_ENDPOINT, {bookId})
+    axios.post(API_BOOK_ACTIONS_ENDPOINT + bookId, {bookId, action})
       .then((data) => {
         this.setState({
           waiting: false,
-          open: false
+          open: false,
         })
-        // TODO: handle login status before (on FAB click)
         if (data.data.status === 'error' && data.data.message === 'not logged in') {
           this.props.promptLogin()
         }
@@ -104,6 +103,26 @@ export default class TradeRequests extends React.Component {
         >
           <br/>
           {this.state[this.state.selection] ? this.state[this.state.selection].map((b) => {
+            let buttonText = '';
+            let buttonDisabled = false;
+            let buttonStyle = '';
+            let action = '';
+
+            if (b.tradeStatus === 'approved') {
+              buttonText = 'Trade Approved'
+              buttonDisabled = true;
+            } else if (b.tradeStatus === 'proposed') {
+              if (this.state.selection === 'requests') {
+                buttonText = 'Unpropose'
+                buttonStyle = 'secondary'
+                action = 'unpropose';
+              } else if (this.state.selection === 'propositions') {
+                buttonText = 'Reject'
+                buttonStyle = 'secondary';
+                action = 'reject';
+              }
+            }
+
             return (
               <Card className="search-result">
                 <CardHeader
@@ -122,8 +141,17 @@ export default class TradeRequests extends React.Component {
                 </CardText>
 
                 <CardActions>
-                  <RaisedButton disabled={this.state.waiting} onClick={this.handleSubmit.bind(this, b.id)} primary={true} label="Add to trade board"/>
-
+                  <RaisedButton disabled={this.state.waiting || buttonDisabled}
+                                onClick={this.handleSubmit.bind(this, b.id, action)}
+                                primary={buttonStyle === 'primary' ? true : false}
+                                secondary={buttonStyle === 'secondary' ? true : false}
+                                label={buttonText}
+                  />
+                  {action === 'reject' && <RaisedButton disabled={this.state.waiting || buttonDisabled}
+                                onClick={this.handleSubmit.bind(this, b.id, 'reject')}
+                                secondary={true}
+                                label='Approve'
+                  />}
                 </CardActions>
               </Card>
             )

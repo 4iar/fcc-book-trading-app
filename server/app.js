@@ -41,9 +41,13 @@ app.get('/callback', passport.authenticate('auth0', { failureRedirect: '/broke' 
 });
 
 app.post('/api/book', (request, response) => {
-  const userId = 'placeholderuser1';
+  const userId = request.user.id;
   const bookId = request.body.bookId;
-  console.log(bookId);
+
+  if (userId) {
+    response.json({status: 'error', message: 'not logged in'});
+    return;
+  }
 
   books.lookup(bookId, (error, result) => {
     if (error) {
@@ -74,7 +78,12 @@ app.post('/api/book', (request, response) => {
 app.post('/api/book/:bookId', (request, response) => {
   const action = request.body.action;
   const bookId = request.params.bookId;
-  const userId = 'placeholderuser1';
+  const userId = request.user.id;
+
+  if (userId) {
+    response.json({status: 'error', message: 'not logged in'});
+    return;
+  }
 
   db.collection('books').findOne({id: bookId}, (dbError, dbResult) => {
     // oh my god this is the worst
@@ -134,8 +143,16 @@ app.post('/api/book/:bookId', (request, response) => {
 })
 
 app.delete('/api/book/:bookId', (request, response) => {
-  const userId = 'placeholderuser1';
   const bookId = request.params.bookId;
+  const userId = request.user.id;
+
+  if (userId) {
+    response.json({status: 'error', message: 'not logged in'});
+    return;
+  }
+
+
+
 
   db.collection('books').findOne({id: bookId}, (dbError, dbResult) => {
     if (dbError) {
@@ -169,10 +186,15 @@ app.get('/api/books', (request, response) => {
 
 app.post('/api/user/:userId', (request, response) => {
   // check request.user.id ===  request.params.userId!!!!!
-  const userId = request.params.userId;
   const city = request.body.city;
   const country = request.body.country;
   const otherInfo = request.body.otherInfo;
+  const userId = request.user.id;
+
+  if (userId !== request.params.userId) {
+    response.json({status: 'error', message: 'not logged in'});
+    return;
+  }
 
   db.collection('users').update({id: userId}, {$set: {city, country, otherInfo}}, {upsert: true}, (dbError, dbResult) => {
     if (dbResult) {

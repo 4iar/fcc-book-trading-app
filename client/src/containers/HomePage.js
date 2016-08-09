@@ -6,6 +6,7 @@ import Masonry from 'react-masonry-component';
 import BookCard from '../components/BookCard';
 import NavBar from '../components/NavBar';
 import AddBook from '../components/AddBook.js'
+import TradeRequests from '../components/TradeRequests';
 import '../styles/homepage.scss';
 
 
@@ -38,6 +39,7 @@ export default class HomePage extends React.Component {
     return (
       <div>
         <NavBar />
+        <TradeRequests />
         {this.state.loading &&
         <div className="loading-spinner-container">
           <CircularProgress className="loading-spinner" size={1} />

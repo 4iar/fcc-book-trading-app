@@ -47,13 +47,13 @@ export default class UserInfoEdit extends React.Component {
         if (response.data.message === 'not logged in') {
           this.props.promptLogin();
           return;
+        } else if (response.data.user) {
+          this.newInfo = response.data.user;
+          this.setState({
+            user: response.data.user,
+            waiting: false
+          });
         }
-
-        this.newInfo = response.data.user;
-        this.setState({
-          user: response.data.user,
-          waiting: false
-        });
       })
   }
 
@@ -98,9 +98,11 @@ export default class UserInfoEdit extends React.Component {
       />,
     ];
 
+    if (Object.keys(this.state.user).length) {
+      return <div></div>
+    }
+
     return (
-
-
       <div>
         <Dialog
           title="Edit public info"

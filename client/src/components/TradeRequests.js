@@ -11,6 +11,7 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 
 import {promptLogin} from '../actions/userActions';
+import {sendNotification} from '../actions/notificationActions';
 import {API_BOOK_ACTIONS_ENDPOINT} from '../constants/endpoints';
 //import '../styles/addbook.scss';
 
@@ -21,7 +22,7 @@ function getState(state) {
   };
 }
 
-@connect(getState, {promptLogin})
+@connect(getState, {promptLogin, sendNotification})
 export default class TradeRequests extends React.Component {
   constructor(props) {
     super(props);
@@ -67,6 +68,7 @@ export default class TradeRequests extends React.Component {
           waiting: false,
           open: false,
         })
+        this.props.sendNotification(data.data.status, data.data.message);
         if (data.data.status === 'error' && data.data.message === 'not logged in') {
           this.props.promptLogin()
         }

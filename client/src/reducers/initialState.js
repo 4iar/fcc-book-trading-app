@@ -4,7 +4,11 @@ const initialState = {
     loading: false
   },
   user: {
-    id: 30412341
+    id: 'placeholderuser1'
+  },
+  notification: {
+    newest: '',
+    count: 0
   }
 };
 

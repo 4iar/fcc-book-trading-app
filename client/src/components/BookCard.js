@@ -7,12 +7,13 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 
 import {promptLogin} from '../actions/userActions';
+import {sendNotification} from '../actions/notificationActions';
 import {API_BOOK_ACTIONS_ENDPOINT} from '../constants/endpoints';
 
 import '../styles/venue.scss';
 
 
-@connect(null, {promptLogin})
+@connect(null, {promptLogin, sendNotification})
 export default class BookCard extends React.Component {
   constructor(props) {
     super(props);
@@ -45,8 +46,7 @@ export default class BookCard extends React.Component {
     const endpoint = API_BOOK_ACTIONS_ENDPOINT + this.state.id;
     axios.post(endpoint, {action: 'propose'})
       .then((response) => {
-        console.log(response);
-
+        this.props.sendNotification(response.data.status, response.data.message);
         if (response.data.status === 'success') {
         } else if (response.data.status === 'error') {
           if (response.data.message === 'not logged in') {

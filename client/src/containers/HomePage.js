@@ -7,6 +7,7 @@ import BookCard from '../components/BookCard';
 import NavBar from '../components/NavBar';
 import AddBook from '../components/AddBook.js'
 import TradeRequests from '../components/TradeRequests';
+import Notifications from '../components/Notifications';
 import '../styles/homepage.scss';
 
 
@@ -67,6 +68,7 @@ export default class HomePage extends React.Component {
         </div>
 
         <AddBook/>
+        <Notifications/>
       </div>
     );
   }

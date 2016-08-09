@@ -41,10 +41,10 @@ app.get('/callback', passport.authenticate('auth0', { failureRedirect: '/broke' 
 });
 
 app.post('/api/book', (request, response) => {
-  const userId = request.user.id;
+  const userId = request.user ? request.user.id : null;
   const bookId = request.body.bookId;
 
-  if (userId) {
+  if (!userId) {
     response.json({status: 'error', message: 'not logged in'});
     return;
   }
@@ -78,9 +78,9 @@ app.post('/api/book', (request, response) => {
 app.post('/api/book/:bookId', (request, response) => {
   const action = request.body.action;
   const bookId = request.params.bookId;
-  const userId = request.user.id;
+  const userId = request.user ? request.user.id : null;
 
-  if (userId) {
+  if (!userId) {
     response.json({status: 'error', message: 'not logged in'});
     return;
   }
@@ -144,9 +144,9 @@ app.post('/api/book/:bookId', (request, response) => {
 
 app.delete('/api/book/:bookId', (request, response) => {
   const bookId = request.params.bookId;
-  const userId = request.user.id;
+  const userId = request.user ? request.user.id : null;
 
-  if (userId) {
+  if (!userId) {
     response.json({status: 'error', message: 'not logged in'});
     return;
   }
@@ -189,7 +189,7 @@ app.post('/api/user/:userId', (request, response) => {
   const city = request.body.city;
   const country = request.body.country;
   const otherInfo = request.body.otherInfo;
-  const userId = request.user.id;
+  const userId = request.user ? request.user.id : null;
 
   if (userId !== request.params.userId) {
     response.json({status: 'error', message: 'not logged in'});
@@ -206,7 +206,11 @@ app.post('/api/user/:userId', (request, response) => {
 })
 
 app.get('/api/user/:userId', (request, response) => {
-  const userId = request.params.userId;
+  const userId = request.user ? request.user.id : null;
+  if (!userId) {
+    response.json({status: 'error', message: 'not logged in'});
+    return;
+  }
 
   db.collection('users').findOne({id: userId}, (dbError, dbResult) => {
     if (dbError) {

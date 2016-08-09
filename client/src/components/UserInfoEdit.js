@@ -27,7 +27,7 @@ export default class UserInfoEdit extends React.Component {
     this.state = {
       open: false,
       waiting: true,
-      user: {city: '', otherInfo: '', country: ''}
+      user: {}
     };
   }
 
@@ -99,6 +99,8 @@ export default class UserInfoEdit extends React.Component {
     ];
 
     return (
+
+
       <div>
         <Dialog
           title="Edit public info"

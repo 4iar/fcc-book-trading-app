@@ -9,12 +9,13 @@ import _ from 'lodash';
 
 import {promptLogin} from '../actions/userActions';
 import {sendNotification} from '../actions/notificationActions';
+import {fetchBooks} from '../actions/booksActions';
 import {API_BOOK_ACTIONS_ENDPOINT} from '../constants/endpoints';
 
 import '../styles/bookcard.scss';
 
 
-@connect(null, {promptLogin, sendNotification})
+@connect(null, {promptLogin, sendNotification, fetchBooks})
 export default class BookCard extends React.Component {
   constructor(props) {
     super(props);
@@ -53,6 +54,8 @@ export default class BookCard extends React.Component {
           if (response.data.message === 'not logged in') {
             this.props.promptLogin()
           }
+        } else {
+          this.props.fetchBooks();
         }
         this.setState({
           waiting: false

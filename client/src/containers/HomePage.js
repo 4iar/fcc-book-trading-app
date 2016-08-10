@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import CircularProgress from 'material-ui/CircularProgress';
 import Masonry from 'react-masonry-component';
 
 import BookCard from '../components/BookCard';
@@ -15,7 +14,6 @@ import '../styles/homepage.scss';
 function getState(state) {
   return {
     books: state.books.books,
-    loading: state.books.loading
   };
 }
 
@@ -26,14 +24,12 @@ export default class HomePage extends React.Component {
 
     this.state = {
       books: undefined,
-      loading: false
     };
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({
       books: newProps.books,
-      loading: newProps.loading
     });
   }
 
@@ -43,11 +39,6 @@ export default class HomePage extends React.Component {
         <NavBar />
         <UserInfoEdit />
         <TradeRequests />
-        {this.state.loading &&
-        <div className="loading-spinner-container">
-          <CircularProgress className="loading-spinner" size={1} />
-        </div>
-        }
 
         {this.state.books && this.state.books.length === 0 &&
         <h2 style={{textAlign: 'center'}}>Nothing going on here :(</h2>

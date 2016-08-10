@@ -224,7 +224,15 @@ app.get('/api/user/:userId', (request, response) => {
     if (dbError) {
       response.json({status: 'error', message: 'could not talk to the database'});
     } else if (!dbResult) {
-      response.json({status: 'error', message: 'user not found'});
+      response.json({
+        status: 'success',
+        message: 'user not found',
+        user: {
+          city: 'placeholder city',
+          country: 'placeholder country',
+          otherInfo: 'placeholder otherInfo',
+
+        }});
     } else if (dbResult) {
       response.json({
         status: 'success',

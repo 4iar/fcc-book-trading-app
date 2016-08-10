@@ -102,7 +102,7 @@ export default class UserInfoEdit extends React.Component {
       />,
     ];
 
-    if (Object.keys(this.state.user).length) {
+    if (!Object.keys(this.state.user).length) {
       return <div></div>
     }
 

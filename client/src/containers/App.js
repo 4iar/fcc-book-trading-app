@@ -16,9 +16,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.props.fetchBooks();
-  }
-
-  ComponentDidMount() {
     this.props.fetchCurrentUser();
   }
 

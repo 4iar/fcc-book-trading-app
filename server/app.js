@@ -214,8 +214,8 @@ app.post('/api/user/:userId', (request, response) => {
 })
 
 app.get('/api/user/:userId', (request, response) => {
-  const userId = request.user ? request.user.id : null;
-  if (!userId) {
+  const userId = request.params.userId;
+  if (!request.user) {
     response.json({status: 'error', message: 'not logged in'});
     return;
   }

@@ -42,12 +42,15 @@ export default class UserInfoEdit extends React.Component {
   }
 
   getInitialData() {
+    console.log(this);
     axios.get(API_USER_INFO_ENDPOINT + this.props.id)
       .then((response) => {
         if (response.data.message === 'not logged in') {
           this.props.promptLogin();
           return;
-        } else if (response.data.user) {
+        }
+
+        if (response.data.user) {
           this.newInfo = response.data.user;
           this.setState({
             user: response.data.user,
@@ -88,6 +91,7 @@ export default class UserInfoEdit extends React.Component {
   }
 
   render() {
+    console.log(this);
     const actions = [
       <FlatButton
         label="Submit"

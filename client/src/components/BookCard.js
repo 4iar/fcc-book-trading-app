@@ -1,15 +1,17 @@
 import React from 'react';
 import {Card, CardActions, CardText, CardMedia} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import Chip from 'material-ui/Chip';
 import ActionCompareArrows from 'material-ui/svg-icons/action/compare-arrows';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import _ from 'lodash';
 
 import {promptLogin} from '../actions/userActions';
 import {sendNotification} from '../actions/notificationActions';
 import {API_BOOK_ACTIONS_ENDPOINT} from '../constants/endpoints';
 
-import '../styles/venue.scss';
+import '../styles/bookcard.scss';
 
 
 @connect(null, {promptLogin, sendNotification})
@@ -33,6 +35,7 @@ export default class BookCard extends React.Component {
       ratingCount: book.metadata.ratingsCount,
       description: book.metadata.description,
       tradeStatus: book.tradeStatus,
+      categories: book.metadata.categories,
       id: book.id
     };
   }
@@ -58,8 +61,16 @@ export default class BookCard extends React.Component {
   }
 
   render() {
+    let categories = [];
+    console.log(this.state.categories);
+    if (this.state.categories) {
+      this.state.categories.map((c) => {
+        categories = categories.concat(c.split('/'));
+      })
+      categories = _.uniq(categories); // shouold really put this in state instead of rawcategories
+    }
     return (
-      <Card className="venue">
+      <Card className="book-card-container">
 
         <CardMedia className="image">
           <img src={this.state.thumbnailUrl} />
@@ -75,6 +86,13 @@ export default class BookCard extends React.Component {
           {this.state.rating &&
           <h2 className="align-left">{this.state.rating}/5 across {this.state.ratingCount} votes</h2>
           }
+
+          <div className="genre-chip-container">
+          {categories.map((c) => {
+            return (<Chip className="genre-chip">{c}</Chip>)
+          })}
+          </div>
+
         </CardText>
 
         <CardText className="description">

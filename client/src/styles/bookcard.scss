@@ -1,0 +1,18 @@
+.book-card-container {
+  width: 20em;
+  margin: auto 1em 1em 1em;
+}
+
+.title {
+  font-size: 2em;
+  text-align: center;
+}
+
+.genre-chip {
+  margin: 4;
+}
+
+.genre-chip-container {
+  display: flex;
+  flex-wrap: wrap;
+}

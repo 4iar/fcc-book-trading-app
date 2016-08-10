@@ -3,22 +3,10 @@ import initialState from './initialState';
 
 export default function user(state = initialState.user, action) {
   switch (action.type) {
-    case 'RECEIVE_VENUES': {
+    case 'RECEIVE_CURRENT_USER': {
       return {
         ...state,
-        venues: action.payload.books
-      };
-    }
-    case 'REQUEST_VENUES': {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-    case 'NEW_LOCATION': {
-      return {
-        ...state,
-        location: action.payload.location
+        id: action.payload.id
       };
     }
     default:

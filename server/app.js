@@ -40,6 +40,14 @@ app.get('/callback', passport.authenticate('auth0', { failureRedirect: '/broke' 
   response.redirect("/home");
 });
 
+app.get('/api/auth/currentuser', (request, response) => {
+  if (!request.user) {
+    response.json({status: 'error', message: 'not logged in'});
+  } else {
+    response.json({status: 'success', message: 'logged in', userId: request.user.id});
+  }
+})
+
 app.post('/api/book', (request, response) => {
   const userId = request.user ? request.user.id : null;
   const bookId = request.body.bookId;

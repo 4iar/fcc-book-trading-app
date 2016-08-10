@@ -31,10 +31,6 @@ export default class UserInfoEdit extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.getInitialData();
-  }
-
   componentWillReceiveProps(newProps) {
     if (newProps.showUserInfoEdit) {
       this.handleOpen();

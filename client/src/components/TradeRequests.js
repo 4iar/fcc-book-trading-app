@@ -14,7 +14,7 @@ import {promptLogin} from '../actions/userActions';
 import {sendNotification} from '../actions/notificationActions';
 import {API_BOOK_ACTIONS_ENDPOINT} from '../constants/endpoints';
 import UserInfo from '../components/UserInfo';
-//import '../styles/addbook.scss';
+import '../styles/traderequests.scss';
 
 function getState(state) {
   return {
@@ -180,7 +180,7 @@ export default class TradeRequests extends React.Component {
 
         </Dialog>
 
-        <div>
+        <div className="requests-buttons">
           <Badge
             badgeContent={this.state.requests ? this.state.requests.length : 0}
             secondary={true}

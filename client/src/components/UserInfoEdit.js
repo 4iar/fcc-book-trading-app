@@ -22,7 +22,7 @@ export default class UserInfoEdit extends React.Component {
   constructor(props) {
     super(props);
 
-    this.newInfo = {}
+    this.newInfo = {};
 
     this.state = {
       open: false,
@@ -38,7 +38,6 @@ export default class UserInfoEdit extends React.Component {
   }
 
   getInitialData() {
-    console.log(this);
     axios.get(API_USER_INFO_ENDPOINT + this.props.id)
       .then((response) => {
         if (response.data.message === 'not logged in') {
@@ -53,7 +52,7 @@ export default class UserInfoEdit extends React.Component {
             waiting: false
           });
         }
-      })
+      });
   }
 
   handleOpen = () => {
@@ -73,7 +72,7 @@ export default class UserInfoEdit extends React.Component {
   handleSubmit() {
     this.setState({
       waiting: true
-    })
+    });
 
     axios.post(API_USER_INFO_ENDPOINT + this.props.id, this.newInfo)
       .then((response) => {
@@ -83,11 +82,10 @@ export default class UserInfoEdit extends React.Component {
 
         this.props.sendNotification(response.data.status, response.data.message);
         this.handleClose();
-      })
+      });
   }
 
   render() {
-    console.log(this);
     const actions = [
       <FlatButton
         label="Submit"
@@ -99,7 +97,7 @@ export default class UserInfoEdit extends React.Component {
     ];
 
     if (!Object.keys(this.state.user).length) {
-      return <div></div>
+      return (<div></div>);
     }
 
     return (

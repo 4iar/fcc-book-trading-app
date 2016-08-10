@@ -22,8 +22,6 @@ export default class Notifications extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("got new props: ");
-    console.log(newProps);
     this.setState({
       open: true,
       message: newProps.notification,

@@ -23,7 +23,7 @@ export default class userInfo extends React.Component {
         this.setState({
           user: response.data.user
         });
-      })
+      });
   }
 
   handleClose = () => {

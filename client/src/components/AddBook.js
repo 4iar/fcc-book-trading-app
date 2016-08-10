@@ -44,15 +44,15 @@ export default class AddStock extends React.Component {
         this.setState({
           waiting: false,
           open: false
-        })
+        });
         this.props.sendNotification(data.data.status, data.data.message);
         // TODO: handle login status before (on FAB click)
         if (data.data.status === 'error' && data.data.message === 'not logged in') {
-          this.props.promptLogin()
+          this.props.promptLogin();
         } else {
           this.props.fetchBooks();
         }
-      })
+      });
   }
 
   handleChange(e) {
@@ -115,7 +115,7 @@ export default class AddStock extends React.Component {
                   <RaisedButton disabled={this.state.waiting} onClick={this.handleSubmit.bind(this, b.id)} primary={true} label="Add to trade board"/>
                 </CardActions>
               </Card>
-            )
+            );
           }) : null}
 
 
@@ -124,7 +124,7 @@ export default class AddStock extends React.Component {
               <div>
                 {b.title} {b.authors ? "(" + b.authors[0] + ")" : ''}
               </div>
-            )
+            );
           }) : null}
 
 

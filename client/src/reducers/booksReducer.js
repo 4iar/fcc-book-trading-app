@@ -2,7 +2,6 @@ import initialState from './initialState';
 
 
 export default function books(state = initialState.books, action) {
-  console.log(action)
   switch (action.type) {
     case 'RECEIVE_BOOKS': {
       return {

@@ -52,7 +52,7 @@ export default class BookCard extends React.Component {
         this.props.sendNotification(response.data.status, response.data.message);
         if (response.data.status === 'error') {
           if (response.data.message === 'not logged in') {
-            this.props.promptLogin()
+            this.props.promptLogin();
           }
         } else {
           this.props.fetchBooks();
@@ -65,11 +65,10 @@ export default class BookCard extends React.Component {
 
   render() {
     let categories = [];
-    console.log(this.state.categories);
     if (this.state.categories) {
       this.state.categories.map((c) => {
         categories = categories.concat(c.split('/'));
-      })
+      });
       categories = _.uniq(categories); // shouold really put this in state instead of rawcategories
     }
     return (
@@ -92,7 +91,7 @@ export default class BookCard extends React.Component {
 
           <div className="genre-chip-container">
           {categories.map((c) => {
-            return (<Chip className="genre-chip">{c}</Chip>)
+            return (<Chip className="genre-chip">{c}</Chip>);
           })}
           </div>
 

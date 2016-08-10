@@ -2,7 +2,6 @@ import initialState from './initialState';
 
 
 export default function notification(state = initialState.notification, action) {
-  console.log(action);
   switch (action.type) {
     case 'SEND_NOTIFICATION': {
       return {

@@ -41,7 +41,7 @@ export default class TradeRequests extends React.Component {
         return b.tradingWith === this.props.userId;
       }),
       propositions: this.props.books.filter((b) => {
-        return b.addedBy === this.props.userId && b.tradeStatus
+        return b.addedBy === this.props.userId && b.tradeStatus;
       })
     };
   }
@@ -54,7 +54,7 @@ export default class TradeRequests extends React.Component {
         return b.tradingWith === newProps.userId;
       }),
       propositions: newProps.books.filter((b) => {
-        return b.addedBy === newProps.userId && b.tradeStatus
+        return b.addedBy === newProps.userId && b.tradeStatus;
       })
     });
   }
@@ -69,14 +69,14 @@ export default class TradeRequests extends React.Component {
         this.setState({
           waiting: false,
           open: false,
-        })
+        });
         this.props.sendNotification(data.data.status, data.data.message);
         if (data.data.status === 'error' && data.data.message === 'not logged in') {
-          this.props.promptLogin()
+          this.props.promptLogin();
         } else {
           this.props.fetchBooks();
         }
-      })
+      });
   }
 
   handleOpen(selection) {
@@ -84,7 +84,7 @@ export default class TradeRequests extends React.Component {
       view: selection,
       selection,
       open: true
-    })
+    });
   }
 
   handleClose = () => {
@@ -104,7 +104,7 @@ export default class TradeRequests extends React.Component {
     }[this.state.view];
 
     if (!this.state.userId) {
-      return <div></div>
+      return (<div></div>);
     }
 
     return (
@@ -128,14 +128,14 @@ export default class TradeRequests extends React.Component {
             let action = '';
 
             if (b.tradeStatus === 'approved') {
-              buttonText = 'Trade Approved'
+              buttonText = 'Trade Approved';
               buttonDisabled = true;
             } else if (b.tradeStatus === 'proposed') {
               if (this.state.selection === 'requests') {
-                buttonText = 'Unpropose'
+                buttonText = 'Unpropose';
                 action = 'unpropose';
               } else if (this.state.selection === 'propositions') {
-                buttonText = 'Reject'
+                buttonText = 'Reject';
                 action = 'reject';
               }
             }
@@ -174,7 +174,7 @@ export default class TradeRequests extends React.Component {
                   />
                 </CardActions>
               </Card>
-            )
+            );
           }) : null}
 
         </Dialog>

@@ -4,7 +4,7 @@ import Masonry from 'react-masonry-component';
 
 import BookCard from '../components/BookCard';
 import NavBar from '../components/NavBar';
-import AddBook from '../components/AddBook.js'
+import AddBook from '../components/AddBook.js';
 import TradeRequests from '../components/TradeRequests';
 import Notifications from '../components/Notifications';
 import UserInfoEdit from '../components/UserInfoEdit';

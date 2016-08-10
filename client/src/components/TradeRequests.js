@@ -125,7 +125,6 @@ export default class TradeRequests extends React.Component {
           {this.state[this.state.selection] ? this.state[this.state.selection].map((b) => {
             let buttonText = '';
             let buttonDisabled = false;
-            let buttonStyle = '';
             let action = '';
 
             if (b.tradeStatus === 'approved') {
@@ -134,11 +133,9 @@ export default class TradeRequests extends React.Component {
             } else if (b.tradeStatus === 'proposed') {
               if (this.state.selection === 'requests') {
                 buttonText = 'Unpropose'
-                buttonStyle = 'secondary'
                 action = 'unpropose';
               } else if (this.state.selection === 'propositions') {
                 buttonText = 'Reject'
-                buttonStyle = 'secondary';
                 action = 'reject';
               }
             }
@@ -163,13 +160,12 @@ export default class TradeRequests extends React.Component {
                 <CardActions>
                   <RaisedButton disabled={this.state.waiting || buttonDisabled}
                                 onClick={this.handleSubmit.bind(this, b.id, action)}
-                                primary={buttonStyle === 'primary' ? true : false}
-                                secondary={buttonStyle === 'secondary' ? true : false}
+                                primary={true}
                                 label={buttonText}
                   />
                   {action === 'reject' && <RaisedButton disabled={this.state.waiting || buttonDisabled}
                                 onClick={this.handleSubmit.bind(this, b.id, 'approve')}
-                                secondary={true}
+                                primary={true}
                                 label='Approve'
                   />}
                   <RaisedButton onClick={this.showUserInfo.bind(this, this.state.selection === 'requests' ? b.addedBy : b.tradingWith)}

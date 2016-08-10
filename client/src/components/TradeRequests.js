@@ -161,7 +161,7 @@ export default class TradeRequests extends React.Component {
                                 label={buttonText}
                   />
                   {action === 'reject' && <RaisedButton disabled={this.state.waiting || buttonDisabled}
-                                onClick={this.handleSubmit.bind(this, b.id, 'reject')}
+                                onClick={this.handleSubmit.bind(this, b.id, 'Approve')}
                                 secondary={true}
                                 label='Approve'
                   />}

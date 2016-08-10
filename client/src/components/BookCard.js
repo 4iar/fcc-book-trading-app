@@ -66,7 +66,15 @@ export default class BookCard extends React.Component {
         </CardMedia>
 
         <CardText>
+          {!this.state.thumbnailUrl &&
+          <div>
+            <p>no image available</p>
+            <h1>{this.state.title}</h1>
+          </div>
+          }
+          {this.state.rating &&
           <h2 className="align-left">{this.state.rating}/5 across {this.state.ratingCount} votes</h2>
+          }
         </CardText>
 
         <CardText className="description">

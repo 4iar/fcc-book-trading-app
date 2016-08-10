@@ -100,6 +100,10 @@ export default class TradeRequests extends React.Component {
       propositions: 'Trade propositions from other users'
     }[this.state.view];
 
+    if (!this.state.userId) {
+      return <div></div>
+    }
+
     return (
       <div>
         {this.state.showUserInfo &&
